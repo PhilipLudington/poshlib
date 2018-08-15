@@ -1,7 +1,8 @@
-# POSH According to Wikipedia
+# POSH 
+## According to Wikipedia
 Posh is a software framework used in cross-platform software development. It was created by Brian Hook. It is BSD licensed and as of 17 March 2014 at version 1.3.002.  - https://en.wikipedia.org/wiki/Poshlib
 
-# OverView
+## OverView
 
 Overview: Rationale, Goals, and Philosophy
 
@@ -53,7 +54,7 @@ POSH is not an emulation library. It does not attempt to emulate missing feature
 
 Finally, POSH is not religious about how extreme it will be when trying to achieve portability. At some point, you have to just say "screw it" when a platform fights you too much. If a particular architecture or compiler is so idiosyncratic that it breaks the rest of POSH, I will not compromise the cleanliness or functionality of POSH just so we can say we run on yet one more platform.
 
-# QuickTutorial
+## QuickTutorial
 
 Quick Tutorial
 
@@ -72,9 +73,9 @@ POSH provides type definitions for 8-bit, 16-bit, 32-bit and (if available) 64-b
 If you use these types, you are guaranteed to get native types of the exact given size, not "at least" the given size. This is to ensure that serialization and deserialization work, since you need to be able to count on a constant sizeof(T) across platforms.
 
 The posh data types are fairly verbose. For this reason (and to avoid user confusion), you may want to create your own type definitions and simply alias them to the POSH ones, e.g.:
-
+```
 typedef posh_u16_t my_u16;
-
+```
 Step 3: Use POSH Function Decoration/Signature Macros
 
 Note: This is only pertinent to library developers
@@ -101,11 +102,11 @@ Note: Only relevant to library developers
 When building a library should should define the preprocessor symbol POSH_BUILDING_LIB before including source:posh.h. Do this in your source files, not in your public header files'' You do not want this defined inadvertently when a user is trying to link to your library, since they may cause linkage failures on Windows if your library is a DLL.
 
 For example, if your library is called MyLib?, make sure all your source (not header) files define this before including source:posh.h, for example:
-
+```
 //MYLIB.C
 #define POSH_BUILDING_LIB
 #include "mylib.h" //which in turn includes posh.h
-
+```
 Alternatively, if you distribute a project or Makefile you can ensure that the appropriate compiler option (e.g. -DPOSH_BUILDING_LIB=1) is set correctly instead of modifying your source code.
 Step 4b: Defining POSH_DLL
 
@@ -117,6 +118,7 @@ The typical way to handle this, especially if you want to build optionally as a 
 
 For example, if your library is called MyLib?, you might have your own symbol MYLIB_DLL. A user of your library would define this if they are building library as a DLL and/or using it as a DLL. Then in your own code you key off this symbol as such:
 
+```
 //MYLIB_H
 #ifndef MYLIB_H
 #define MYLIB_H
@@ -130,7 +132,7 @@ For example, if your library is called MyLib?, you might have your own symbol MY
 #include "posh.h"
 
 #endif
-
+```
 Step 4c: Defining POSH_NO_FLOAT
 
 POSH provides the ability to serialize/deserialize single and double-precision floating point values by default. However, it may be desirable or necessary to disable floating point support, for example on platforms that lack native floating point support or which do not have IEEE complaint floating point bit representations. Or you may just find that linking without floating support gives you a marginally smaller executable.
@@ -156,7 +158,7 @@ The constants potentially defined include:
     many other CPU and operating system specific symbols 
 
 Use these constants in your code as appropriate:
-
+```
 #if defined POSH_BIG_ENDIAN
    DoBigEndianStuff();
 #endif
@@ -164,7 +166,7 @@ Use these constants in your code as appropriate:
 #if !defined POSH_64BIT_INTEGER
 #  error My library needs 64-bit integer support!
 #endif
-
+```
 Note that POSH does not define any compiler identification macros, since unlike CPU and OS target macros, these are (hopefully) going to be consistent and unique. In addition, if you have code that is compiler specific, the expectation is that you already know how to detect that compiler.
 Step 7: (Optional) Use Byte Swapping Functions
 
@@ -181,20 +183,20 @@ POSH provides a set of in-memory serialization/deserialization functions, along 
 Step 9: (Optional) Use POSH_COMPILE_TIME_ASSERT
 
 POSH provides a cross-platform compile time assertion macro. You don't have to use it, but it's there if you want to. POSH itself uses it fairly liberally in posh.h to sanity check the environment. An example of its use might be something like:
-
+```
 /* ensure that 64-bit integers are actually 64-bits */
 POSH_COMPILE_TIME_ASSERT(i64,sizeof(posh_i64_t)==8);
-
+```
 Conclusion
 
 That's pretty much it. There really isn't much documentation for this stuff because it's all fairly straightforward. Browsing source:posh.h should provide you most of the answers for anything you'll run into.
 
-# Source Code and Full Documentation
+## Source Code and Full Documentation
 Code was downloaded from http://poshlib.hookatooka.com/poshlib/trac.cgi
 userid: guest
 password guest123
 
-# License
+## License
 This website also spells out the license:
 
 Copyright (c) 2004-2006, Brian Hook All rights reserved.
